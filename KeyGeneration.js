@@ -3,11 +3,54 @@ addEventListener('fetch', event => {
 })
 
 async function handleRequest(request) {
+  // Extract the client's IP address
+  const clientIP = request.headers.get('cf-connecting-ip')
+
+  // If IP address is not available, return an error response
+  if (!clientIP) {
+    return new Response('Unable to determine IP address.', { status: 400 })
+  }
+
+  // Use ipgeolocation.io API to get details about the IP address
+  const apiKey = 'd0cfa0c3a706416eaef1f5b54bf563c0' // Replace with your ipgeolocation.io API key
+  const url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${clientIP}`
+
+  // Fetch the IP information
+  const response = await fetch(url)
+  const ipDetails = await response.json()
+
+  // Extract the organization field and replace known organizations
+  let organization = ipDetails.organization || 'Unknown'
+  if (organization === 'Bharat Sanchar Nigam Ltd') {
+    organization = 'BSNL'
+  } else if (organization === 'Reliance Jio Infocomm Limited') {
+    organization = 'JIO'
+  } else if (organization === 'Bharti Airtel Limited') {
+    organization = 'AIRTEL'
+  } else if (organization === 'vi') {
+    organization = 'VODAFONE'
+  }
+
+  let country_code2 = ipDetails.country_code2 
+  let ip = ipDetails.ip
+
   // Generate random data
   const dataToHash = generateRandomString(20) // Generating a random string of length 20
 
+  // Generate the hash
   const hash = await generateHash(dataToHash)
-  const result = `Airtel_in${hash}`
+
+  // Create the result by appending the hash to the organization name
+  const result = `${organization}_${country_code2}_${ip}_${hash}`
+
+  // Save the result with an incrementing key in the KV namespace
+  let key = 1;
+  let value;
+  do {
+    value = await AIRTELEDGE.get(`KEY_${key}`);
+    key++;
+  } while (value !== null);
+  await AIRTELEDGE.put(`Key_${key}`, result);
 
   // Return the result as plain text
   return new Response(result, {
