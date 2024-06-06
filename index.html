@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page is Under Developement</title>
+    <title>Page is Under Development</title>
     <style>
         #myVideo {
             display: none; /* Hide the video initially */
@@ -13,22 +13,100 @@
         #anotherButton {
             display: none; /* Hide the button initially */
         }
+        .buttons {
+            background: #333;
+            color: #fff;
+            border: 0;
+            outline: 0;
+            width: 120px;
+            height: 40px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        /* Modal styles */
+        #modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+        #modalContent {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <form id="videoForm">
-        <button type="submit" id="submitButton">Submit</button>
+        <button type="submit" id="submitButton" class="buttons" style="margin: 50px">Submit</button>
     </form>
     <video id="myVideo">
         <source src="https://4ysdk0.sharepoint.com/_layouts/15/download.aspx?share=EcmjN-RzK0xJiwMhjYTUczEB5ZTRdpPwxOWHCXKK5QTmtg" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <button id="anotherButton">Another Button</button>
+    <button id="anotherButton" class="buttons" style="margin: 50px">Another Button</button>
+
+    <!-- The Modal -->
+    <div id="modal">
+        <div id="modalContent">
+            <span class="close">&times;</span>
+            <p id="modalText"></p>
+        </div>
+    </div>
 
     <script>
         document.getElementById('videoForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission behavior
-        
+            
+            fetch('https://keygen.mohanishx.link') // Fetch the value from the URL
+                .then(response => response.text())
+                .then(data => {
+                    // Display the popup notification
+                    let modal = document.getElementById('modal');
+                    let modalText = document.getElementById('modalText');
+                    modalText.innerText = data;
+                    modal.style.display = 'block';
+                    
+                    // When the user clicks on <span> (x), close the modal
+                    document.getElementsByClassName('close')[0].onclick = function() {
+                        modal.style.display = 'none';
+                        playVideo();
+                    }
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                            playVideo();
+                        }
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        function playVideo() {
             let video = document.getElementById('myVideo');
             let submitButton = document.getElementById('submitButton');
             
@@ -38,39 +116,12 @@
             // Unhide the video element
             video.style.display = 'block';
         
-            // Function to request fullscreen
-          /*  function requestFullScreen(element) {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.mozRequestFullScreen) { // Firefox
-                    element.mozRequestFullScreen();
-                } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                    element.webkitRequestFullscreen();
-                } else if (element.msRequestFullscreen) { // IE/Edge
-                    element.msRequestFullscreen();
-                }
-            }
-        
-            // Request fullscreen for the video element
-            requestFullScreen(video);*/
-        
             video.play(); // Play the video
-        });
-        
+        }
+
         document.getElementById('myVideo').addEventListener('ended', function() {
             let video = document.getElementById('myVideo');
             let anotherButton = document.getElementById('anotherButton');
-        
-            // Exit fullscreen mode
-         /*   if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) { // Firefox
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { // IE/Edge
-                document.msExitFullscreen();
-            }*/
         
             // Hide the video element
             video.style.display = 'none';
