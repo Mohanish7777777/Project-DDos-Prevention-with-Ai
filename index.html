@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page is Under Developement</title>
+    <style>
+        #myVideo {
+            display: none; /* Hide the video initially */
+            width: 100%; /* Ensure it scales to fullscreen */
+            height: auto;
+        }
+        #anotherButton {
+            display: none; /* Hide the button initially */
+        }
+    </style>
+</head>
+<body>
+    <form id="videoForm">
+        <button type="submit" id="submitButton">Submit</button>
+    </form>
+    <video id="myVideo">
+        <source src="https://ddlbot-f9033d9e053c.herokuapp.com/236175" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <button id="anotherButton">Another Button</button>
+
+    <script>
+        document.getElementById('videoForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+        
+            let video = document.getElementById('myVideo');
+            let submitButton = document.getElementById('submitButton');
+            
+            // Hide the submit button
+            submitButton.style.display = 'none';
+            
+            // Unhide the video element
+            video.style.display = 'block';
+        
+            // Function to request fullscreen
+          /*  function requestFullScreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullScreen) { // Firefox
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { // IE/Edge
+                    element.msRequestFullscreen();
+                }
+            }
+        
+            // Request fullscreen for the video element
+            requestFullScreen(video);*/
+        
+            video.play(); // Play the video
+        });
+        
+        document.getElementById('myVideo').addEventListener('ended', function() {
+            let video = document.getElementById('myVideo');
+            let anotherButton = document.getElementById('anotherButton');
+        
+            // Exit fullscreen mode
+         /*   if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }*/
+        
+            // Hide the video element
+            video.style.display = 'none';
+        
+            // Show the other button
+            anotherButton.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
